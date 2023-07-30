@@ -1,4 +1,4 @@
-package org.example;
+package com.bolton;
 
 /**
  * @author Sandaru Anjana <sandaruanjana@outlook.com>
