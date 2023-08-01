@@ -43,4 +43,8 @@ public class UserController implements SuperController {
         userService.follow(email);
     }
 
+    public void unfollow(String email) {
+        userService.unfollow(email);
+    }
+
 }

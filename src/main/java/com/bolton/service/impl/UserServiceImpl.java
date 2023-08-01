@@ -116,9 +116,9 @@ public class UserServiceImpl implements UserService, SuperService {
 
         allUsers.remove(currentUser);
 
-        currentUser.getFollowing().forEach(user -> {
-            allUsers.remove(user);
-        });
+//        currentUser.getFollowing().forEach(user -> {
+//            allUsers.remove(user);
+//        });
 
         return allUsers;
 

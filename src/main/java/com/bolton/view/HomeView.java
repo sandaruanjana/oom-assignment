@@ -8,6 +8,7 @@ import com.bolton.controller.ControllerFactory;
 import com.bolton.controller.UserController;
 import com.bolton.model.Post;
 import com.bolton.model.User;
+import com.bolton.service.impl.UserServiceImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author User
  */
 public class HomeView extends javax.swing.JFrame {
@@ -85,65 +85,65 @@ public class HomeView extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(postButton))
-                    .addComponent(jScrollPane1))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(logOutButton)
-                        .addGap(29, 29, 29))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(249, 249, 249)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(postButton))
+                                        .addComponent(jScrollPane1))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(logOutButton)
+                                                .addGap(29, 29, 29))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(11, 11, 11)
+                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(249, 249, 249)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(41, 41, 41))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(63, 63, 63)
-                                .addComponent(postButton))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(logOutButton)
-                        .addGap(19, 19, 19))))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2))
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(2, 2, 2)
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGap(63, 63, 63)
+                                                                .addComponent(postButton))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGap(25, 25, 25)
+                                                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addContainerGap())
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(logOutButton)
+                                                .addGap(19, 19, 19))))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loadPost(){
+    private void loadPost() {
 
         ControllerFactory controllerFactory = ControllerFactory.getInstance();
 
@@ -160,13 +160,13 @@ public class HomeView extends javax.swing.JFrame {
 
         if (posts.isEmpty()) {
             postContent.append("No posts to show");
-        }else {
+        } else {
             allPostTextArea.setText(postContent.toString());
         }
 
     }
 
-    private void loadUsersWithFollowButton(){
+    private void loadUsersWithFollowButton() {
         ControllerFactory controllerFactory = ControllerFactory.getInstance();
 
         UserController userController = (UserController) controllerFactory.getController(ControllerFactory.ControllerType.USER);
@@ -185,12 +185,14 @@ public class HomeView extends javax.swing.JFrame {
         JPanel usersPanel = new JPanel();
         usersPanel.setLayout(new GridLayout(0, 2, 5, 5));
 
+        User currentUser = UserServiceImpl.currentUser;
+
         for (User user : users) {
             // Create a label for the user name
             JLabel nameLabel = new JLabel(user.getName());
 
             // Create a new follow button for each user
-            JButton followButton = new JButton("Follow");
+            JButton followButton = new JButton(currentUser.getFollowing().contains(user) ? "Unfollow" : "Follow");
             followButton.setPreferredSize(new Dimension(15, 15));
             followButton.addActionListener(new ActionListener() {
                 @Override
@@ -200,13 +202,27 @@ public class HomeView extends javax.swing.JFrame {
                             + "\nUser Name: " + user.getName());
 
 
+                    if (followButton.getText().equals("Unfollow")) {
+                        ControllerFactory controllerFactory = ControllerFactory.getInstance();
+
+                        UserController userController = (UserController) controllerFactory.getController(ControllerFactory.ControllerType.USER);
+                        userController.unfollow(user.getEmail());
+                        followButton.setText("Follow");
+                        followButton.setEnabled(true);
+                        loadUsersWithFollowButton();
+                        loadPost();
+                        return;
+                    }
+
+
                     ControllerFactory controllerFactory = ControllerFactory.getInstance();
 
                     UserController userController = (UserController) controllerFactory.getController(ControllerFactory.ControllerType.USER);
                     userController.follow(user.getEmail());
-                    followButton.setText("Following");
+                    followButton.setText("Unfollow");
                     followButton.setEnabled(false);
                     loadUsersWithFollowButton();
+                    loadPost();
                 }
             });
 
@@ -282,7 +298,7 @@ public class HomeView extends javax.swing.JFrame {
         String content = postTextArea.getText().trim();
 
         // check if content is empty
-        if(content.isEmpty() ){
+        if (content.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Post content cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
