@@ -197,10 +197,6 @@ public class HomeView extends javax.swing.JFrame {
             followButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("Follow button clicked"
-                            + "\nUser ID: " + user.getId()
-                            + "\nUser Name: " + user.getName());
-
 
                     if (followButton.getText().equals("Unfollow")) {
                         ControllerFactory controllerFactory = ControllerFactory.getInstance();
