@@ -49,32 +49,35 @@ public class UserServiceImpl implements UserService, SuperService {
     }
 
     @Override
-    public void follow(String email) {
+    public boolean follow(String email) {
 
         User user = findUserByEmail(email);
 
         if (user == null) {
-            return;
+            return false;
         }
 
         // check if already following
         for (User following : currentUser.getFollowing()) {
             if (following.getEmail().equals(email)) {
-                return;
+                return false;
             }
         }
 
         currentUser.getFollowing().add(user);
+
+        return true;
     }
 
     @Override
-    public void unfollow(String email) {
+    public boolean unfollow(String email) {
         User user = findUserByEmail(email);
 
         if (user == null) {
-            return;
+            return false;
         }
         currentUser.getFollowing().remove(user);
+        return true;
     }
 
     @Override

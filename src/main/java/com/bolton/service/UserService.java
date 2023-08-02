@@ -13,9 +13,9 @@ public interface UserService {
 
     boolean register(String name, String email, String password);
 
-    void follow(String email);
+    boolean follow(String email);
 
-    void unfollow(String email);
+    boolean unfollow(String email);
 
     void post(String content);
 

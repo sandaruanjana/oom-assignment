@@ -4,6 +4,7 @@ import com.bolton.model.Post;
 import com.bolton.model.User;
 import com.bolton.service.ServiceFactory;
 import com.bolton.service.UserService;
+import com.bolton.service.impl.UserServiceImpl;
 
 import java.util.List;
 
@@ -38,16 +39,24 @@ public class UserController implements SuperController {
         return userService.getAllUsers();
     }
 
-    public void follow(String email) {
-        userService.follow(email);
+    public boolean follow(String email) {
+       return userService.follow(email);
     }
 
-    public void unfollow(String email) {
-        userService.unfollow(email);
+    public boolean unfollow(String email) {
+        return userService.unfollow(email);
     }
 
     public User findUserByEmail(String email) {
         return userService.findUserByEmail(email);
+    }
+
+    public User getCurrentUser() {
+        return UserServiceImpl.currentUser;
+    }
+
+    public void setCurrentUser(User user) {
+        UserServiceImpl.currentUser = user;
     }
 
 }
