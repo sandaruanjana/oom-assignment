@@ -11,7 +11,7 @@ import java.util.List;
 public interface UserService {
     User login(String email, String password);
 
-    void register(String name, String email, String password);
+    boolean register(String name, String email, String password);
 
     void follow(String email);
 

@@ -19,8 +19,7 @@ public class UserController implements SuperController {
     }
 
     public boolean register(String name, String email, String password) {
-        userService.register(name, email, password);
-        return true;
+        return userService.register(name, email, password);
     }
 
     public void logout() {
@@ -45,6 +44,10 @@ public class UserController implements SuperController {
 
     public void unfollow(String email) {
         userService.unfollow(email);
+    }
+
+    public User findUserByEmail(String email) {
+        return userService.findUserByEmail(email);
     }
 
 }

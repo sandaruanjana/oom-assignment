@@ -31,12 +31,21 @@ public class UserServiceImpl implements UserService, SuperService {
     }
 
     @Override
-    public void register(String name, String email, String password) {
+    public boolean register(String name, String email, String password) {
+
+        // check if email already exists
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                return false;
+            }
+        }
+
         User user = new User();
         user.setName(name);
         user.setEmail(email);
         user.setPassword(password);
         users.add(user);
+        return true;
     }
 
     @Override
