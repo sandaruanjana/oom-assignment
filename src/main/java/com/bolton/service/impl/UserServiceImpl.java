@@ -2,8 +2,11 @@ package com.bolton.service.impl;
 
 import com.bolton.model.Post;
 import com.bolton.model.User;
+import com.bolton.service.Observer;
+import com.bolton.service.Subject;
 import com.bolton.service.SuperService;
 import com.bolton.service.UserService;
+import com.bolton.view.HomeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +14,9 @@ import java.util.List;
 /**
  * @author Sandaru Anjana <sandaruanjana@outlook.com>
  */
-public class UserServiceImpl implements UserService, SuperService {
+public class UserServiceImpl implements UserService, SuperService, Subject<List<Post>> {
     private static final List<User> users = new ArrayList<>();
+    private List<Observer<List<Post>>> observers = new ArrayList<>();
     public static User currentUser = null;
 
     @Override
@@ -86,7 +90,7 @@ public class UserServiceImpl implements UserService, SuperService {
         post.setContent(content);
         post.setUser(currentUser);
         currentUser.getPosts().add(post);
-
+        notifyObservers(currentUser.getPosts());
     }
 
     @Override
@@ -134,5 +138,22 @@ public class UserServiceImpl implements UserService, SuperService {
 
         return allUsers;
 
+    }
+
+    @Override
+    public void registerObserver(Observer<List<Post>> observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(Observer<List<Post>> observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(List<Post> data) {
+        for (Observer<List<Post>> observer : observers) {
+            observer.update(data);
+        }
     }
 }

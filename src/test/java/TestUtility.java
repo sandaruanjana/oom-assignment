@@ -1,5 +1,6 @@
 import com.bolton.controller.ControllerFactory;
 import com.bolton.controller.UserController;
+import com.bolton.exception.UserAlreadyExistsException;
 import com.bolton.model.User;
 
 /**
@@ -14,7 +15,12 @@ public class TestUtility {
 
     public static User registerUser(String name, String email, String password) {
         UserController userController = getUserController();
-        boolean register = userController.register(name, email, password);
+        boolean register = false;
+        try {
+            register = userController.register(name, email, password);
+        } catch (UserAlreadyExistsException e) {
+            return null;
+        }
         if (register) {
             // User registration successful, return the registered user
             return userController.findUserByEmail(email);

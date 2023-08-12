@@ -1,4 +1,5 @@
 import com.bolton.controller.UserController;
+import com.bolton.exception.UserNotFoundException;
 import com.bolton.model.User;
 import com.bolton.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.*;
@@ -12,7 +13,6 @@ public class LoginTest {
 
     @BeforeAll
     static void setUp() {
-        // Register a user before each test method
         registeredUser = TestUtility.registerUser(TEST_NAME, TEST_EMAIL, TEST_PASSWORD);
         Assertions.assertNotNull(registeredUser);
     }
@@ -22,8 +22,12 @@ public class LoginTest {
     @Order(1)
     void login() {
         UserController userController = TestUtility.getUserController();
-        User login = userController.login("test@gmail.com", "123456");
-        Assertions.assertNotNull(login);
+        try {
+            User login = userController.login(TEST_EMAIL, TEST_PASSWORD);
+            Assertions.assertNotNull(login);
+        } catch (UserNotFoundException e) {
+            Assertions.fail("User should be found with valid credentials.");
+        }
     }
 
     @Test
@@ -31,8 +35,12 @@ public class LoginTest {
     @Order(2)
     void invalidLoginWrongPassword() {
         UserController userController = TestUtility.getUserController();
-        User login = userController.login("test@gmail.com", "wrongpassword");
-        Assertions.assertNull(login); // Expecting null as login should fail with wrong password
+        try {
+           userController.login(TEST_EMAIL, "wrongpassword");
+           Assertions.fail("Login should fail with wrong password.");
+        } catch (UserNotFoundException e) {
+            Assertions.assertTrue(true);
+        }
     }
 
     @Test
@@ -40,8 +48,12 @@ public class LoginTest {
     @Order(3)
     void invalidLoginNonExistingUser() {
         UserController userController = TestUtility.getUserController();
-        User login = userController.login("nonexisting@gmail.com", "123456");
-        Assertions.assertNull(login); // Expecting null as login should fail with non-existing user
+        try {
+            userController.login("nonexisting@gmail.com", TEST_PASSWORD);
+            Assertions.fail("Login should fail with non-existing user.");
+        } catch (UserNotFoundException e) {
+            Assertions.assertTrue(true);
+        }
     }
 
     @Test
@@ -49,11 +61,15 @@ public class LoginTest {
     @Order(4)
     void logout() {
         UserController userController = TestUtility.getUserController();
-        User login = userController.login("test@gmail.com", "123456");
+        User login = null;
+        try {
+            login = userController.login(TEST_EMAIL, TEST_PASSWORD);
+        } catch (UserNotFoundException e) {
+            Assertions.fail("User should be found with valid credentials.");
+        }
         Assertions.assertNotNull(login);
 
-        // Now, test logout functionality
         userController.logout();
-        Assertions.assertNull(UserServiceImpl.currentUser); // Expecting null as the user should be logged out
+        Assertions.assertNull(UserServiceImpl.currentUser);
     }
 }

@@ -151,15 +151,11 @@ public class LoginForm extends javax.swing.JFrame {
         if (UserServiceImpl.currentUser == null){
             try {
                 User user = userController.login(email, password);
-                if (user != null){
-                    UserServiceImpl.currentUser = user;
-                    new HomeView().setVisible(true);
-                    this.dispose();
-                }else{
-                    JOptionPane.showMessageDialog(this, "Invalid email or password");
-                }
+                UserServiceImpl.currentUser = user;
+                new HomeView().setVisible(true);
+                this.dispose();
             } catch (Exception e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Invalid email or password");
             }
         }
 

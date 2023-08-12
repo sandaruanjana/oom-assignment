@@ -8,6 +8,9 @@ import com.bolton.controller.ControllerFactory;
 import com.bolton.controller.UserController;
 import com.bolton.model.Post;
 import com.bolton.model.User;
+import com.bolton.service.Observer;
+import com.bolton.service.ServiceFactory;
+import com.bolton.service.UserService;
 import com.bolton.service.impl.UserServiceImpl;
 
 import javax.swing.*;
@@ -20,13 +23,24 @@ import java.util.List;
 /**
  * @author User
  */
-public class HomeView extends javax.swing.JFrame {
+public class HomeView extends javax.swing.JFrame implements Observer<List<Post>> {
+
+    private UserController userController;
+    private User currentUser;
 
     /**
      * Creates new form HomeView
      */
     public HomeView() {
         initComponents();
+        ControllerFactory controllerFactory = ControllerFactory.getInstance();
+        userController = (UserController) controllerFactory.getController(ControllerFactory.ControllerType.USER);
+        currentUser = userController.getCurrentUser();
+
+        // Register HomeView as an observer
+        UserService userService = userController.getUserService();
+        ((UserServiceImpl) userService).registerObserver(this);
+
         loadPost();
         loadUsersWithFollowButton();
     }
@@ -144,10 +158,6 @@ public class HomeView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadPost() {
-
-        ControllerFactory controllerFactory = ControllerFactory.getInstance();
-
-        UserController userController = (UserController) controllerFactory.getController(ControllerFactory.ControllerType.USER);
         List<Post> posts = userController.getAllPosts();
         StringBuilder postContent = new StringBuilder();
 
@@ -167,19 +177,7 @@ public class HomeView extends javax.swing.JFrame {
     }
 
     private void loadUsersWithFollowButton() {
-        ControllerFactory controllerFactory = ControllerFactory.getInstance();
-
-        UserController userController = (UserController) controllerFactory.getController(ControllerFactory.ControllerType.USER);
         List<User> users = userController.getAllUsers();
-//        JList<User> userList = new JList<>(users.toArray(new User[0]));
-//        userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Set selection mode to SINGLE_SELECTION
-//        userList.setCellRenderer(new UserListCellRenderer());
-//
-//        JScrollPane scrollPane = new JScrollPane(userList);
-//        scrollPane.setPreferredSize(new Dimension(190, 360));
-//
-//        // Add the JScrollPane to jScrollPane2
-//        jScrollPane2.setViewportView(scrollPane);
 
         // Create a new panel to hold the follow buttons
         JPanel usersPanel = new JPanel();
@@ -235,62 +233,14 @@ public class HomeView extends javax.swing.JFrame {
 
     }
 
-    // Inner class to render users with a follow button in the JList
-//    class UserListCellRenderer extends JPanel implements ListCellRenderer<User> {
-//
-//        private JButton followButton;
-//        private JLabel nameLabel;
-//
-//        public UserListCellRenderer() {
-//            setLayout(new BorderLayout());
-//
-//            nameLabel = new JLabel();
-//            followButton = new JButton("Follow");
-//            followButton.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    // Get the selected user when the follow button is clicked
-//                    User selectedUser = (User) followButton.getClientProperty("user");
-//                    if (selectedUser != null) {
-//                        System.out.println("Follow button clicked");
-//                        System.out.println(selectedUser.getName());
-//
-//                        // Perform the follow action here
-//                        // For example: userController.follow(selectedUser);
-//                    }
-//                }
-//            });
-//            add(nameLabel, BorderLayout.CENTER);
-//            add(followButton, BorderLayout.EAST);
-//            followButton.addActionListener(new ActionList
-//        }
-//
-//        @Override
-//        public Component getListCellRendererComponent(JList<? extends User> list, User user, int index,
-//                                                      boolean isSelected, boolean cellHasFocus) {
-//            nameLabel.setText(user.getName());
-//            followButton.putClientProperty("user", user);
-//
-//            return this;
-//        }
-//    }
-
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
-        ControllerFactory controllerFactory = ControllerFactory.getInstance();
-
-        UserController userController = (UserController) controllerFactory.getController(ControllerFactory.ControllerType.USER);
         userController.logout();
-
         new LoginForm().setVisible(true);
         this.dispose();
 
     }//GEN-LAST:event_logOutButtonActionPerformed
 
     private void postButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_postButtonActionPerformed
-        ControllerFactory controllerFactory = ControllerFactory.getInstance();
-
-        UserController userController = (UserController) controllerFactory.getController(ControllerFactory.ControllerType.USER);
-
         String content = postTextArea.getText().trim();
 
         // check if content is empty
@@ -301,7 +251,7 @@ public class HomeView extends javax.swing.JFrame {
 
         userController.post(content);
         postTextArea.setText("");
-        loadPost();
+        //loadPost();
     }//GEN-LAST:event_postButtonActionPerformed
 
     /**
@@ -349,5 +299,23 @@ public class HomeView extends javax.swing.JFrame {
     private javax.swing.JButton logOutButton;
     private javax.swing.JButton postButton;
     private javax.swing.JTextArea postTextArea;
+
+    @Override
+    public void update(List<Post> data) {
+        // This method will be called when there are updates to the posts
+        // Update the view with the new data, for example:
+        StringBuilder postContent = new StringBuilder();
+        for (Post post : data) {
+            postContent
+                    .append("Name: ").append(post.getUser().getName()).append("\n")
+                    .append(post.getContent()).append("\n\n");
+        }
+
+        if (data.isEmpty()) {
+            postContent.append("No posts to show");
+        } else {
+            allPostTextArea.setText(postContent.toString());
+        }
+    }
     // End of variables declaration//GEN-END:variables
 }
