@@ -304,18 +304,7 @@ public class HomeView extends javax.swing.JFrame implements Observer<List<Post>>
     public void update(List<Post> data) {
         // This method will be called when there are updates to the posts
         // Update the view with the new data, for example:
-        StringBuilder postContent = new StringBuilder();
-        for (Post post : data) {
-            postContent
-                    .append("Name: ").append(post.getUser().getName()).append("\n")
-                    .append(post.getContent()).append("\n\n");
-        }
-
-        if (data.isEmpty()) {
-            postContent.append("No posts to show");
-        } else {
-            allPostTextArea.setText(postContent.toString());
-        }
+       loadPost();
     }
     // End of variables declaration//GEN-END:variables
 }

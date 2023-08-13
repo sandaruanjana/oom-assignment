@@ -30,7 +30,7 @@ public class UserController implements SuperController {
     public User login(String email, String password) throws UserNotFoundException {
         User user = userService.login(email, password);
         if (user == null) {
-            throw new UserNotFoundException("User not found for the given credentials.");
+            throw new UserNotFoundException("User not found for the given email.");
         }
         return user;
 
@@ -39,7 +39,7 @@ public class UserController implements SuperController {
     public boolean register(String name, String email, String password) throws UserAlreadyExistsException {
         boolean success = userService.register(name, email, password);
         if (!success) {
-            throw new UserAlreadyExistsException("User with the same email already exists.");
+            throw new UserAlreadyExistsException("User already exists for the given email.");
         }
         return true;
     }

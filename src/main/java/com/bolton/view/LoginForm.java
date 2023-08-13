@@ -7,6 +7,7 @@ package com.bolton.view;
 import com.bolton.controller.ControllerFactory;
 import com.bolton.controller.SuperController;
 import com.bolton.controller.UserController;
+import com.bolton.exception.UserNotFoundException;
 import com.bolton.model.User;
 import com.bolton.service.ServiceFactory;
 import com.bolton.service.SuperService;
@@ -154,6 +155,8 @@ public class LoginForm extends javax.swing.JFrame {
                 UserServiceImpl.currentUser = user;
                 new HomeView().setVisible(true);
                 this.dispose();
+            }catch (UserNotFoundException userNotFoundException){
+                JOptionPane.showMessageDialog(this, userNotFoundException.getMessage());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Invalid email or password");
             }
