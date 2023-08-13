@@ -1,4 +1,5 @@
 import com.bolton.controller.UserController;
+import com.bolton.exception.UserNotFoundException;
 import com.bolton.model.User;
 import org.junit.jupiter.api.*;
 
@@ -20,7 +21,11 @@ public class UserFunctionalityTest {
     @BeforeEach
     void loginAndSetUpCurrentUser() {
         userController = TestUtility.getUserController();
-        currentUser = userController.login(registeredUser1.getEmail(), registeredUser1.getPassword());
+        try {
+            currentUser = userController.login(registeredUser1.getEmail(), registeredUser1.getPassword());
+        } catch (UserNotFoundException e) {
+            Assertions.fail("User should be found with valid credentials.");
+        }
         userController.setCurrentUser(currentUser);
     }
 

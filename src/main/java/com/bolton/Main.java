@@ -2,6 +2,7 @@ package com.bolton;
 
 import com.bolton.controller.ControllerFactory;
 import com.bolton.controller.UserController;
+import com.bolton.exception.UserAlreadyExistsException;
 import com.bolton.model.User;
 import com.bolton.service.impl.UserServiceImpl;
 import com.bolton.view.HomeView;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author Sandaru Anjana <sandaruanjana@outlook.com>
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args)   {
 
         List<User> users = new ArrayList<>();
 
@@ -49,7 +50,11 @@ public class Main {
         UserController userController = (UserController) controllerFactory.getController(ControllerFactory.ControllerType.USER);
 
         for (User user : users) {
-            userController.register(user.getName(), user.getEmail(), user.getPassword());
+            try {
+                userController.register(user.getName(), user.getEmail(), user.getPassword());
+            } catch (UserAlreadyExistsException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         if (UserServiceImpl.currentUser == null) {

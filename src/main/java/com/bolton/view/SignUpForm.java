@@ -6,6 +6,7 @@ package com.bolton.view;
 
 import com.bolton.controller.ControllerFactory;
 import com.bolton.controller.UserController;
+import com.bolton.exception.UserAlreadyExistsException;
 import com.bolton.service.ServiceFactory;
 import com.bolton.service.UserService;
 
@@ -165,11 +166,13 @@ public class SignUpForm extends javax.swing.JFrame {
 
         UserController userController = (UserController) controllerFactory.getController(ControllerFactory.ControllerType.USER);
         try {
-            userController.register(name,email, password);
+            userController.register(name, email, password);
             new LoginForm().setVisible(true);
             this.dispose();
             JOptionPane.showMessageDialog(this, "You have successfully registered");
             this.dispose();
+        }catch (UserAlreadyExistsException userAlreadyExistsException){
+            JOptionPane.showMessageDialog(this, userAlreadyExistsException.getMessage());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Something went wrong");
         }

@@ -1,10 +1,13 @@
 package com.bolton.controller;
 
+import com.bolton.exception.UserAlreadyExistsException;
+import com.bolton.exception.UserNotFoundException;
 import com.bolton.model.Post;
 import com.bolton.model.User;
 import com.bolton.service.ServiceFactory;
 import com.bolton.service.UserService;
 import com.bolton.service.impl.UserServiceImpl;
+import com.bolton.view.HomeView;
 
 import java.util.List;
 
@@ -13,14 +16,32 @@ import java.util.List;
  */
 public class UserController implements SuperController {
     ServiceFactory serviceFactory = ServiceFactory.getInstance();
-    UserService userService = (UserService) serviceFactory.getService(ServiceFactory.ServiceType.USER);
+    UserService userService;
 
-    public User login(String email, String password) {
-        return userService.login(email, password);
+    public UserController() {
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
+        userService = (UserService) serviceFactory.getService(ServiceFactory.ServiceType.USER);
     }
 
-    public boolean register(String name, String email, String password) {
-        return userService.register(name, email, password);
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public User login(String email, String password) throws UserNotFoundException {
+        User user = userService.login(email, password);
+        if (user == null) {
+            throw new UserNotFoundException("User not found for the given email.");
+        }
+        return user;
+
+    }
+
+    public boolean register(String name, String email, String password) throws UserAlreadyExistsException {
+        boolean success = userService.register(name, email, password);
+        if (!success) {
+            throw new UserAlreadyExistsException("User already exists for the given email.");
+        }
+        return true;
     }
 
     public void logout() {
